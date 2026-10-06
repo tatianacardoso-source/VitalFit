@@ -1,47 +1,64 @@
 <?php
-
 namespace App\Controllers;
+use App\Models\UserModel;
 
-use CodeIgniter\Controller;
-use CodeIgniter\HTTP\CLIRequest;
-use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\ResponseInterface;
-use Psr\Log\LoggerInterface;
-
-abstract class BaseController extends Controller
+class Auth extends BaseController
 {
-    /**
-     * Instance of the main Request object.
-     *
-     * @var CLIRequest|IncomingRequest
-     */
-    protected $request;
-
-    /**
-     * An array of helpers to be loaded automatically upon
-     * class instantiation. These helpers will be available
-     * to all other controllers that extend BaseController.
-     *
-     * @var list<string>
-     */
-    protected $helpers = [];
-
-    /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
-     */
-    // protected $session;
-
-    /**
-     * @return void
-     */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    public function register()
     {
-        // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
+        return view('auth/register');
+    }
 
-        // Preload any models, libraries, etc, here.
-        // E.g.: $this->session = \Config\Services::session();
+    public function guardarRegistro()
+    {
+        $model = new UserModel();
+
+        $nombre = $this->request->getPost('nombre');
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+
+        $model->insert([
+            'nombre' => $nombre,
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ]);
+
+        return redirect()->to('/login');
+    }
+
+    public function login()
+    {
+        return view('auth/login');
+    }
+
+    public function iniciarSesion()
+    {
+        $model = new UserModel();
+
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+
+        $usuario = $model->where('email', $email)->first();
+
+        if ($usuario && password_verify($password, $usuario['password'])) {
+
+            session()->set([
+                'id' => $usuario['id'],
+                'nombre' => $usuario['nombre'],
+                'email' => $usuario['email'],
+                'logueado' => true
+            ]);
+
+            return redirect()->to('/home');
+        }
+
+        return redirect()->back()->with('error', 'Email o contraseña incorrectos');
+    }
+
+    public function logout()
+    {
+        session()->destroy();
+
+        return redirect()->to('/login');
     }
 }

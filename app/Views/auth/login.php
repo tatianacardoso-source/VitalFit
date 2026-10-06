@@ -1,32 +1,47 @@
-<?= view('templates/header') ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+</head>
 
-<div>
-    <div>
-        <div>
-            <h3>Iniciar Sesión</h3>
+<body>
 
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
-            <?php endif; ?>
-            <?php if (session()->getFlashdata('exito')): ?>
-                <div class="alert alert-success"><?= session()->getFlashdata('exito') ?></div>
-            <?php endif; ?>
+    <h1>Iniciar sesión</h1>
 
-            <!-- 1. Crear un formulario con método POST que envíe los datos a la ruta 'login' -->
-            <form>
-                <div>
-                <!-- 1.1 Insertar un campo para el mail -->
-                </div>
-                <div>
-                <!-- 1.2 Insertar un campo para la contraseña -->
-                </div>
-                <!-- 1.3 Añadir un botón para enviar el formulario -->
-            </form>
-            <div>
-            <!-- 2. Añadir un enlace para redirigir a 'register' si el usuario no tiene cuenta -->
-            </div>
-        </div>
-    </div>
-</div>
+    <?php if (session()->getFlashdata('error')): ?>
+        <p>
+            <?= session()->getFlashdata('error') ?>
+        </p>
+    <?php endif; ?>
 
-<?= view('templates/footer') ?>
+    <form action="<?= base_url('iniciarSesion') ?>" method="post">
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <br><br>
+
+        <label>Contraseña:</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button type="submit">Ingresar</button>
+
+    </form>
+
+    <p>
+        ¿No tenés una cuenta?
+        <a href="<?= base_url('register') ?>">Registrate</a>
+    </p>
+
+</body>
+</html>
+    <p>
+        ¿Ya tenés una cuenta????
+        <a href="<?= base_url('login') ?>">Iniciar sesión</a>
+    </p>
+
+</body>
+</html>

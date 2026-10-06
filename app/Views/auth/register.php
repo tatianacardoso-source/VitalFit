@@ -1,38 +1,39 @@
-<?= view('templates/header') ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrarse</title>
+</head>
 
-<div>
-    <div>
-        <div>
-            <h3>Registro de Usuario</h3>
+<body>
 
-            <?php if (session()->getFlashdata('errores')): ?>
-                <div class="alert alert-danger">
-                    <ul>
-                    <?php foreach (session()->getFlashdata('errores') as $error): ?>
-                        <li><?= esc($error) ?></li>
-                    <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
+    <h1>Crear cuenta</h1>
 
-            <!-- 1. Crear un formulario con método POST que envíe los datos a la ruta 'register' -->
-            <form>
-                <div>
-                    <!-- 1.1 Insertar un campo para ingresar el nombre completo -->
-                </div>
-                <div>
-                    <!-- 1.2 Insertar un campo para ingresar el email -->
-                </div>
-                <div>
-                    <!-- 1.3 Insertar un campo para ingresar la contraseña -->
-                </div>
-                <!-- 1.3 Añadir un botón para enviar el formulario -->
-            </form>
-            <div>
-                <!-- 2. Añadir un enlace para redirigir a 'login' si el usuario ya tiene cuenta -->
-            </div>
-        </div>
-    </div>
-</div>
+    <form action="<?= base_url('guardarRegistro') ?>" method="post">
 
-<?= view('templates/footer') ?>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
+
+        <br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <br><br>
+
+        <label>Contraseña:</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button type="submit">Registrarme</button>
+
+    </form>
+
+    <p>
+        ¿Ya tenés una cuenta?
+        <a href="<?= base_url('login') ?>">Iniciar sesión</a>
+    </p>
+
+</body>
+</html>
