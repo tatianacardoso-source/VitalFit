@@ -17,4 +17,3 @@ $routes->post('/guardarRegistro', 'Auth::guardarRegistro');
 
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/home', 'Home::index');
-ro');
